@@ -13,7 +13,7 @@
 #   limitations under the License.
 
 ARG VERSION=latest
-FROM quay.io/konveyor/move2kube:$VERSION 
+FROM quay.io/konveyor/move2kube:${VERSION} 
 RUN dnf group install "Development Tools" -y
 RUN yum install -y npm make git expect
 RUN npm install -g bats

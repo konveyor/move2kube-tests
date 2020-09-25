@@ -6,3 +6,8 @@
 # move2kube-tests
 
 Functional tests for move2kube
+
+## Usage
+
+* Local test : Ensure to have `move2kube` binary in path, and run `make test-local`.
+* Docker based test : `make test-docker`

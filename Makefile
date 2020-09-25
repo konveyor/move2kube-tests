@@ -12,7 +12,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-MOVE2KUBETEST_IMAGE := "move2kubetest:latest"
+MOVE2KUBETEST_IMAGE := "move2kube-test:latest"
 
 # HELP
 # This will output the help for each task
@@ -33,4 +33,4 @@ test-local:  ## Run local integration tests
 
 .PHONY: image
 image:
-	docker build -t $(MOVE2KUBETEST_IMAGE) .
+	docker build -t $(MOVE2KUBETEST_IMAGE) --build-arg VERSION=${VERSION} .

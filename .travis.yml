@@ -1,0 +1,17 @@
+language: go
+
+go:
+  - "1.15"
+
+services:
+  - docker
+  
+script:
+  - make test-docker
+
+notifications:
+    email:
+      recipients:
+        - ashokponkumar@in.ibm.com
+      on_success: never # default: change
+      on_failure: always # default: always

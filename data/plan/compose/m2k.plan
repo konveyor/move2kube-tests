@@ -1,0 +1,24 @@
+apiVersion: move2kube.io/v1alpha1
+kind: Plan
+metadata:
+  name: myproject
+spec:
+  inputs:
+    rootDir: data/source/compose
+    services:
+      apache:
+        - serviceName: apache
+          image: bitnami/apache:latest
+          translationType: Compose2Kube
+          containerBuildType: Reuse
+          sourceType:
+            - DockerCompose
+          sourceArtifacts:
+            DockerCompose:
+              - docker-compose.yaml
+          updateContainerBuildPipeline: false
+          updateDeployPipeline: true
+  outputs:
+    kubernetes:
+      artifactType: Yamls
+      clusterType: Kubernetes

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.move2kube.service: apache
+  name: apache
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      io.move2kube.service: apache
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.move2kube.service: apache
+      name: apache
+    spec:
+      containers:
+        - image: bitnami/apache:latest
+          imagePullPolicy: Always
+          name: apache
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

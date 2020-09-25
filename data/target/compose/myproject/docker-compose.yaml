@@ -1,0 +1,10 @@
+version: "3.5"
+services:
+  apache:
+    container_name: apache
+    image: bitnami/apache:latest
+    ports:
+      - target: 8080
+        published: 8080
+      - target: 8443
+        published: 8081

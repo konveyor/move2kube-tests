@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    io.move2kube.service: apache
+    move2kube.konveyor.io/service: apache
   name: apache
 spec:
   replicas: 2
   selector:
     matchLabels:
-      io.move2kube.service: apache
+      move2kube.konveyor.io/service: apache
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        io.move2kube.service: apache
+        move2kube.konveyor.io/service: apache
       name: apache
     spec:
       containers:

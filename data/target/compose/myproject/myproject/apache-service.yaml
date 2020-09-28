@@ -3,7 +3,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    io.move2kube.service: apache
+    move2kube.konveyor.io/service: apache
   name: apache
 spec:
   ports:
@@ -14,7 +14,7 @@ spec:
       port: 80
       targetPort: 8443
   selector:
-    io.move2kube.service: apache
+    move2kube.konveyor.io/service: apache
   type: ClusterIP
 status:
   loadBalancer: {}

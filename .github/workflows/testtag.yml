@@ -1,0 +1,49 @@
+name: Test
+
+on:
+  repository_dispatch:
+    types: [cli_build]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Commit Hash or Tag Name'     
+        required: true
+        default: 'latest'
+
+jobs:
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    - uses: haya14busa/action-cond@v1
+      id: condval
+      with:
+        cond: ${{ github.event_name == 'cli_build' }}
+        if_true: ${{ github.event.client_payload.message.tag }}
+        if_false: ${{ github.event.inputs.tag }}
+    - name: Test 
+      run: make test-docker
+      env:
+        VERSION: ${{ steps.condval.outputs.value }}
+    - uses: rtCamp/action-slack-notify@v2
+      if: failure()
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_COLOR: '#BD3232'
+        SLACK_ICON: https://github.com/actions.png?size=48
+        SLACK_MESSAGE: 'Test failed in master'
+        SLACK_TITLE: Failed
+        SLACK_USERNAME: GitHubActions
+    - name: Success Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_ICON: https://github.com/actions.png?size=48
+        SLACK_MESSAGE: 'Test success in master'
+        SLACK_TITLE: Success
+        SLACK_USERNAME: GitHubActions

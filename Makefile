@@ -34,7 +34,7 @@ help: ## This help.
 
 .PHONY: test-docker
 test-docker: image ## Run integration tests in container
-	docker run -it \
+	docker run \
 		-v $(CURDIR):/wksps/ \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		$(MOVE2KUBETEST_IMAGE):${VERSION} make test-local TESTPATH=$(TESTPATH)

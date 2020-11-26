@@ -24,7 +24,7 @@ jobs:
       id: condval
       with:
         cond: ${{ github.event_name == 'cli_build' }}
-        if_true: ${{ github.event.client_payload.message.tag }}
+        if_true: ${{ github.event.client_payload.tag }}
         if_false: ${{ github.event.inputs.tag }}
     - name: Test 
       run: make test-docker

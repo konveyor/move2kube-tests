@@ -27,9 +27,7 @@ jobs:
         if_true: ${{ github.event.client_payload.tag }}
         if_false: ${{ github.event.inputs.tag }}
     - name: Test 
-      run: make test-docker
-      env:
-        VERSION: ${{ steps.condval.outputs.value }}
+      run: VERSION=${{ steps.condval.outputs.value }} make test-docker
     - uses: rtCamp/action-slack-notify@v2
       if: failure()
       env:

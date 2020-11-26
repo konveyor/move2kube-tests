@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
+    - name: Fetch bats submodules
+      run: git submodule update --init --recursive
     - name: Test 
       run: make test-docker
       env:

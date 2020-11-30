@@ -14,10 +14,16 @@ jobs:
       uses: actions/checkout@v2
       with:
         submodules: true
+    - name: Pull existing image for reuse as cache
+      run: docker pull quay.io/konveyor/move2kube-tests:latest || true
     - name: Test 
       run: make test-docker
       env:
         VERSION: latest
+    - name: Push image to cache
+      run: |
+         echo "${{ secrets.QUAY_BOT_PASSWORD }}" | docker login --username "${{ secrets.QUAY_BOT_USERNAME }}" --password-stdin quay.io
+         docker push quay.io/konveyor/move2kube-tests:latest || true
     - uses: rtCamp/action-slack-notify@v2
       if: failure()
       env:

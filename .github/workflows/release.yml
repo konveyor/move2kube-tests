@@ -16,7 +16,7 @@ jobs:
       with:
         submodules: true
     - name: Test 
-      run: make test-docker
+      run: VERSION=${GITHUB_REF/refs\/tags\//} make test-docker
     - uses: rtCamp/action-slack-notify@v2
       if: failure()
       env:

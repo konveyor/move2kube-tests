@@ -12,8 +12,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-MOVE2KUBETEST_IMAGE := "move2kube-test"
-
 GIT_COMMIT = $(shell git rev-parse HEAD)
 GIT_SHA    = $(shell git rev-parse --short HEAD)
 GIT_TAG    = $(shell git describe --tags --abbrev=0 --exact-match 2>/dev/null)
@@ -25,6 +23,8 @@ endif
 ifeq ($(VERSION),)
 	VERSION = latest
 endif
+
+MOVE2KUBETEST_IMAGE := "quay.io/konveyor/move2kube-tests"
 
 # HELP
 # This will output the help for each task
@@ -45,4 +45,4 @@ test-local:  ## Run local integration tests
 
 .PHONY: image
 image:
-	docker build -t $(MOVE2KUBETEST_IMAGE):${VERSION} --build-arg VERSION=${VERSION} .
+	docker build --cache-from $(MOVE2KUBETEST_IMAGE):latest -t $(MOVE2KUBETEST_IMAGE):${VERSION} --build-arg VERSION=${VERSION} .

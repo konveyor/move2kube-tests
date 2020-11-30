@@ -13,11 +13,22 @@
 #   limitations under the License.
 
 ARG VERSION=latest
-FROM quay.io/konveyor/move2kube:${VERSION} 
+FROM quay.io/konveyor/move2kube:${VERSION} as move2kube
+
+FROM registry.access.redhat.com/ubi8/ubi:latest
+ARG APPNAME=move2kube
+COPY misc/centos.repo /etc/yum.repos.d/centos.repo
 RUN dnf group install "Development Tools" -y
-RUN yum install -y npm make git expect
+RUN dnf install -y npm make git expect
 RUN npm install -g bats
 RUN curl -L https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64  --output /bin/yq
 RUN chmod +x /bin/yq
-WORKDIR /wksps
+COPY --from=move2kube /bin/${APPNAME} /bin/${APPNAME}
+COPY --from=move2kube /bin/pack /bin/pack
+COPY --from=move2kube /bin/kubectl /bin/kubectl
+COPY --from=move2kube /bin/operator-sdk /bin/operator-sdk
 VOLUME ["/wksps"]
+#"/var/run/docker.sock" needs to be mounted for CNB containerization to be used.
+# Start app
+WORKDIR /wksps
+CMD [${APPNAME}]

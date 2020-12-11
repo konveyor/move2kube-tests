@@ -1,7 +1,9 @@
 name: Assign Project
+
 on:
   issues:
     types: [opened]
+
 jobs:
   createCard:
     runs-on: ubuntu-latest

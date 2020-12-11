@@ -2,21 +2,20 @@ name: PR Test
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
-
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-      with:
-        submodules: true
-    - name: Pull existing image for reuse as cache
-      run: docker pull quay.io/konveyor/move2kube-tests:latest || true
-    - name: Test 
-      run: make test-docker
-      env:
-        VERSION: latest
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Pull existing image for reuse as cache
+        run: docker pull quay.io/konveyor/move2kube-tests:latest || true
+      - name: Test
+        run: make test-docker
+        env:
+          VERSION: latest

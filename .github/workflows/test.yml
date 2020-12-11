@@ -2,42 +2,41 @@ name: Test
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
-
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-      with:
-        submodules: true
-    - name: Pull existing image for reuse as cache
-      run: docker pull quay.io/konveyor/move2kube-tests:latest || true
-    - name: Test 
-      run: make test-docker
-      env:
-        VERSION: latest
-    - name: Push image to cache
-      run: |
-         echo "${{ secrets.QUAY_BOT_PASSWORD }}" | docker login --username "${{ secrets.QUAY_BOT_USERNAME }}" --password-stdin quay.io
-         docker push quay.io/konveyor/move2kube-tests:latest || true
-    - uses: rtCamp/action-slack-notify@v2
-      if: failure()
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_COLOR: '#BD3232'
-        SLACK_ICON: https://github.com/actions.png?size=48
-        SLACK_MESSAGE: 'Test failed in master'
-        SLACK_TITLE: Failed
-        SLACK_USERNAME: GitHubActions
-    - name: Success Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_ICON: https://github.com/actions.png?size=48
-        SLACK_MESSAGE: 'Test success in master'
-        SLACK_TITLE: Success
-        SLACK_USERNAME: GitHubActions
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Pull existing image for reuse as cache
+        run: docker pull quay.io/konveyor/move2kube-tests:latest || true
+      - name: Test
+        run: make test-docker
+        env:
+          VERSION: latest
+      - name: Push image to cache
+        run: |
+          echo "${{ secrets.QUAY_BOT_PASSWORD }}" | docker login --username "${{ secrets.QUAY_BOT_USERNAME }}" --password-stdin quay.io
+          docker push quay.io/konveyor/move2kube-tests:latest || true
+      - uses: rtCamp/action-slack-notify@v2
+        if: failure()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: "#BD3232"
+          SLACK_ICON: https://github.com/actions.png?size=48
+          SLACK_MESSAGE: "Test failed in move2kube-tests master"
+          SLACK_TITLE: Failed
+          SLACK_USERNAME: GitHubActions
+      - name: Success Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_ICON: https://github.com/actions.png?size=48
+          SLACK_MESSAGE: "Test success in move2kube-tests master"
+          SLACK_TITLE: Success
+          SLACK_USERNAME: GitHubActions

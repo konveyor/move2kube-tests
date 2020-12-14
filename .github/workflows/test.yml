@@ -2,7 +2,7 @@ name: Test
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   test:
@@ -29,7 +29,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: "#BD3232"
           SLACK_ICON: https://github.com/actions.png?size=48
-          SLACK_MESSAGE: "Test failed in move2kube-tests master"
+          SLACK_MESSAGE: "Test failed in move2kube-tests main"
           SLACK_TITLE: Failed
           SLACK_USERNAME: GitHubActions
       - name: Success Slack Notification
@@ -37,6 +37,6 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_ICON: https://github.com/actions.png?size=48
-          SLACK_MESSAGE: "Test success in move2kube-tests master"
+          SLACK_MESSAGE: "Test success in move2kube-tests main"
           SLACK_TITLE: Success
           SLACK_USERNAME: GitHubActions

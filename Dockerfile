@@ -20,8 +20,8 @@ RUN dnf install -y npm make git expect
 RUN npm install -g bats
 RUN curl -L https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64  --output /bin/yq
 RUN chmod +x /bin/yq
-VOLUME ["/wksps"]
+VOLUME ["/workspace"]
 #"/var/run/docker.sock" needs to be mounted for CNB containerization to be used.
 # Start app
-WORKDIR /wksps
+WORKDIR /workspace
 CMD make test-local

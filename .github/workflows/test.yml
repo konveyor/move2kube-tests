@@ -2,34 +2,41 @@ name: Test
 
 on:
   push:
-    branches: [main]
+    branches:
+      - "main"
+      - "release-*"
 
 jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Pull existing image for reuse as cache
-        run: docker pull quay.io/konveyor/move2kube-tests:latest || true
-      - name: Test
-        run: make test-docker
-        env:
-          VERSION: latest
-      - name: Push image to cache
+      - id: image_tag
         run: |
-          echo "${{ secrets.QUAY_BOT_PASSWORD }}" | docker login --username "${{ secrets.QUAY_BOT_USERNAME }}" --password-stdin quay.io
-          docker push quay.io/konveyor/move2kube-tests:latest || true
-      - uses: rtCamp/action-slack-notify@v2
-        if: failure()
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          if [ "$BRANCH" == 'main' ] ; then
+            echo "::set-output name=tag::latest"
+          else
+            echo "::set-output name=tag::$BRANCH"
+          fi
+      - name: pull existing image for reuse as cache
+        run: |
+          docker pull quay.io/konveyor/move2kube-tests:${{ steps.image_tag.outputs.tag }} || true
+      - name: test
+        run: VERSION='${{ steps.image_tag.outputs.tag }}' make test-docker
+      - run: echo "${{ secrets.QUAY_BOT_PASSWORD }}" | docker login --username "${{ secrets.QUAY_BOT_USERNAME }}" --password-stdin quay.io
+      - name: push image to cache
+        run: docker push quay.io/konveyor/move2kube-tests:${{ steps.image_tag.outputs.tag }}
+      - if: failure()
+        uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: "#BD3232"
           SLACK_ICON: https://github.com/actions.png?size=48
-          SLACK_MESSAGE: "Test failed in move2kube-tests main"
+          SLACK_MESSAGE: "Test failed in move2kube-tests ${{ github.ref }}"
           SLACK_TITLE: Failed
           SLACK_USERNAME: GitHubActions
       - name: Success Slack Notification
@@ -37,6 +44,6 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_ICON: https://github.com/actions.png?size=48
-          SLACK_MESSAGE: "Test success in move2kube-tests main"
+          SLACK_MESSAGE: "Test success in move2kube-tests ${{ github.ref }}"
           SLACK_TITLE: Success
           SLACK_USERNAME: GitHubActions

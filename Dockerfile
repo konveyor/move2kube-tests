@@ -14,8 +14,10 @@
 
 ARG VERSION=latest
 FROM quay.io/konveyor/move2kube:${VERSION} as move2kube
-RUN dnf group install "Development Tools" -y
-RUN dnf install -y npm make git expect findutils
+RUN dnf group install "Development Tools" -y \
+    && dnf install -y npm make git expect findutils \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
 RUN npm install -g bats
 RUN curl -L https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64  --output /bin/yq
 RUN chmod +x /bin/yq

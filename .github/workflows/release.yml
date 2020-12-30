@@ -1,4 +1,4 @@
-name: Release
+name: Tag and Release
 
 on:
   workflow_dispatch:
@@ -26,6 +26,7 @@ jobs:
           submodules: true
       - name: test
         run: VERSION='${{ github.event.inputs.tag }}' make test-docker
+      - run: echo "${{ secrets.QUAY_BOT_PASSWORD }}" | docker login --username "${{ secrets.QUAY_BOT_USERNAME }}" --password-stdin quay.io
       - name: push image to cache
         run: docker push quay.io/konveyor/move2kube-tests:${{ github.event.inputs.tag }}
       - if: failure()

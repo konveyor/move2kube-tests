@@ -38,14 +38,55 @@ jobs:
           SLACK_TITLE: Failed
           SLACK_USERNAME: GitHubActions
 
-  create_release_draft:
+  tag:
     needs: [test]
+    name: Tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_ref }}
+          submodules: true
+      - id: get_sha
+        run: |
+          echo "::set-output name=sha::$(git rev-parse HEAD)"
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.MOVE2KUBE_PATOKEN }}
+          script: |
+            const tag = '${{ github.event.inputs.tag }}';
+            const sha = '${{ steps.get_sha.outputs.sha }}';
+            // create the tag
+            github.git.createRef({
+              ...context.repo,
+              ref: `refs/tags/${tag}`,
+              sha
+            });
+            if(!tag.endsWith('-beta.0')) {
+              return;
+            }
+            // create the release branch
+            const major_minor = /^v(\d+\.\d+)/.exec(tag);
+            if(!major_minor || major_minor.length !== 2){
+              return core.setFailed(`The tag is not a valid semantic version. tag: ${tag}`);
+            }
+            const branch_name = `release-${major_minor[1]}`;
+            core.info(`New beta.0 release. Creating new branch for ${branch_name}`);
+            github.git.createRef({
+              ...context.repo,
+              ref: `refs/heads/${branch_name}`,
+              sha
+            });
+
+  create_release_draft:
+    needs: [tag]
     name: Create release draft
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.inputs.commit_ref }}
+          submodules: true
           fetch-depth: 0
       - id: parse_semver
         uses: booxmedialtd/ws-action-parse-semver@v1
@@ -75,3 +116,24 @@ jobs:
           SLACK_MESSAGE: "Release draft for move2kube-tests ${{ steps.only_tag.outputs.tag }} created: https://github.com/konveyor/move2kube-tests/releases"
           SLACK_TITLE: Success
           SLACK_USERNAME: GitHubActions
+
+  update_draft_title:
+    needs: [create_release_draft]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.MOVE2KUBE_PATOKEN }}
+          script: |
+            const tag = '${{ github.event.inputs.tag }}';
+            const response = await github.repos.listReleases({ ...context.repo });
+            const drafts = response.data.filter(release => release.draft && release.tag_name === tag);
+            if(drafts.length !== 1) {
+              return core.setFailed(`Expected to find exactly one draft release with the tag ${tag}. Found: ${drafts.length}`);
+            }
+            const draft = drafts[0];
+            if(!draft.name.startsWith('[WIP] ')) {
+              return core.setFailed(`Expected the draft name to begin with [WIP]. Found: ${draft.name}`);
+            }
+            const new_name = draft.name.replace(/^\[WIP\] /, '');
+            await github.repos.updateRelease({...context.repo, release_id: draft.id, name: new_name});

@@ -6,40 +6,49 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Commit Hash or Tag Name"
-        required: true
+        description: "tag: Tag of the move2kube image to use for testing"
+        required: false
         default: "latest"
+      commit_ref:
+        description: "commit ref: Reference to a commit or branch or tag name"
+        required: false
+        default: "main"
 
 jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-      - id: condval
+      - id: tag
         uses: haya14busa/action-cond@v1
         with:
           cond: ${{ github.event.action == 'cli_build' }}
           if_true: ${{ github.event.client_payload.tag }}
           if_false: ${{ github.event.inputs.tag }}
-      - name: Pull existing image for reuse as cache
+      - id: ref
+        uses: haya14busa/action-cond@v1
+        with:
+          cond: ${{ github.event.action == 'cli_build' }}
+          if_true: ${{ github.event.client_payload.commit_ref }}
+          if_false: ${{ github.event.inputs.commit_ref }}
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.ref.outputs.value }}
+          submodules: true
+      - name: pull existing image for reuse as cache
         run: docker pull quay.io/konveyor/move2kube-tests:latest || true
-      - name: Test
-        run: VERSION=${{ steps.condval.outputs.value }} make test-docker
-      - name: Push image to cache
-        run: |
-          echo "${{ secrets.QUAY_BOT_PASSWORD }}" | docker login --username "${{ secrets.QUAY_BOT_USERNAME }}" --password-stdin quay.io
-          docker push quay.io/konveyor/move2kube-tests:latest || true
+      - name: test
+        run: VERSION='${{ steps.tag.outputs.value }}' make test-docker
+      - run: echo "${{ secrets.QUAY_BOT_PASSWORD }}" | docker login --username "${{ secrets.QUAY_BOT_USERNAME }}" --password-stdin quay.io
+      - name: push image to cache
+        run: docker push quay.io/konveyor/move2kube-tests:${{ steps.tag.outputs.value }}
       - uses: rtCamp/action-slack-notify@v2
         if: failure()
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: "#BD3232"
           SLACK_ICON: https://github.com/actions.png?size=48
-          SLACK_MESSAGE: "Test failed for move2kube-tests ${{ steps.condval.outputs.value }}"
+          SLACK_MESSAGE: "Test failed for move2kube-tests on branch ${{ steps.ref.outputs.value }}"
           SLACK_TITLE: Failed
           SLACK_USERNAME: GitHubActions
       - name: Success Slack Notification
@@ -47,6 +56,6 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_ICON: https://github.com/actions.png?size=48
-          SLACK_MESSAGE: "Test success for move2kube-tests ${{ steps.condval.outputs.value }}"
+          SLACK_MESSAGE: "Test success for move2kube-tests on branch ${{ steps.ref.outputs.value }}"
           SLACK_TITLE: Success
           SLACK_USERNAME: GitHubActions

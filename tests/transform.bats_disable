@@ -24,7 +24,7 @@ function teardown() {
     teardown_move2kube
 }
 
-@test "translate_compose" {
+@test "transform_compose" {
     rm -rf .m2k
     DATA_DIR=$DATA_DIR TEST_TEMP_DIR=$TEST_TEMP_DIR run expect $DATA_DIR/expect/compose/script.exp
     echo "status = ${status}"

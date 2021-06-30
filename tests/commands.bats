@@ -44,8 +44,8 @@ function teardown() {
     [ "$status" = 0 ]
 }
 
-@test "move2kube translate" {
-    run move2kube translate -h
+@test "move2kube transform" {
+    run move2kube transform -h
     [ "$status" = 0 ]
 }
 

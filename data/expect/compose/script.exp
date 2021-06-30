@@ -47,7 +47,7 @@ set DATA_DIR $env(DATA_DIR)
 set TEST_TEMP_DIR $env(TEST_TEMP_DIR)
 
 set timeout 1
-spawn move2kube translate -p $DATA_DIR/plan/compose/m2k.plan -s $DATA_DIR/source/compose/ -o $TEST_TEMP_DIR/
+spawn move2kube transform -p $DATA_DIR/plan/compose/m2k.plan -s $DATA_DIR/source/compose/ -o $TEST_TEMP_DIR/
 match_max 100000
 expect "1. Which services should we expose?"
 expect "Hints:"

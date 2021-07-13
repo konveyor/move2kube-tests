@@ -14,6 +14,8 @@
 
 ARG VERSION=latest
 FROM quay.io/konveyor/move2kube:${VERSION} as move2kube
+
+FROM registry.fedoraproject.org/fedora:latest
 RUN dnf group install "Development Tools" -y \
     && dnf install -y npm make git expect findutils \
     && dnf clean all \
@@ -22,6 +24,7 @@ RUN npm install -g bats
 RUN curl -L https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64  --output /bin/yq
 RUN chmod +x /bin/yq
 VOLUME ["/workspace"]
+COPY --from=move2kube /bin/move2kube /bin/move2kube
 #"/var/run/docker.sock" needs to be mounted for CNB containerization to be used.
 # Start app
 WORKDIR /workspace

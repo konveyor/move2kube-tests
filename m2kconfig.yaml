@@ -1,0 +1,92 @@
+move2kube:
+  containerruntime: docker
+  minreplicas: "2"
+  services:
+    golang:
+      "8080":
+        servicetype: Ingress
+        urlpath: /golang
+      enable: true
+      ports:
+        - "8080"
+    java-gradle:
+      enable: false
+    java-maven:
+      enable: false
+    nodejs:
+      "8080":
+        servicetype: Ingress
+        urlpath: /nodejs
+      enable: true
+      port: "8080"
+    ruby:
+      "8080":
+        servicetype: Ingress
+        urlpath: /ruby
+      enable: true
+      port: "8080"
+    rust:
+      "8085":
+        servicetype: Ingress
+        urlpath: /rust
+      enable: true
+      port: "8085"
+    test-github-actions-3-django:
+      enable: false
+    test-github-actions-3-java-war:
+      enable: false
+    test-github-actions-3-php:
+      enable: false
+    test-github-actions-3-python:
+      "8080":
+        servicetype: Ingress
+        urlpath: /python
+      enable: true
+      port: "8080"
+  target:
+    clustertype: Kubernetes
+    imageregistry:
+      logintype: No authentication
+      namespace: move2kube
+      url: localhost:5001
+    ingress:
+      host: localhost
+      tls: ""
+  transformers:
+    types:
+      - Buildconfig
+      - CloudFoundry
+      - ClusterSelector
+      - ComposeAnalyser
+      - ComposeGenerator
+      - ContainerImagesPushScriptGenerator
+      - DockerfileDetector
+      - DockerfileImageBuildScript
+      - DockerfileParser
+      - DotNetCore-Dockerfile
+      - EarAnalyser
+      - EarRouter
+      - Golang-Dockerfile
+      - Gradle
+      - Jar
+      - Jboss
+      - Knative
+      - Kubernetes
+      - KubernetesVersionChanger
+      - Liberty
+      - Maven
+      - Nodejs-Dockerfile
+      - PHP-Dockerfile
+      - Parameterizer
+      - Python-Dockerfile
+      - ReadMeGenerator
+      - Ruby-Dockerfile
+      - Rust-Dockerfile
+      - Tekton
+      - Tomcat
+      - WarAnalyser
+      - WarRouter
+      - WinConsoleApp-Dockerfile
+      - WinSLWebApp-Dockerfile
+      - WinWebApp-Dockerfile
+      - ZuulAnalyser

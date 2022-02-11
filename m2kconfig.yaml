@@ -31,13 +31,13 @@ move2kube:
         urlpath: /rust
       enable: true
       port: "8085"
-    test-github-actions-3-django:
+    move2kube-tests-django:
       enable: false
-    test-github-actions-3-java-war:
+    move2kube-tests-java-war:
       enable: false
-    test-github-actions-3-php:
+    move2kube-tests-php:
       enable: false
-    test-github-actions-3-python:
+    move2kube-tests-python:
       "8080":
         servicetype: Ingress
         urlpath: /python

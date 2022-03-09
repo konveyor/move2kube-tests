@@ -16,6 +16,8 @@ jobs:
         with:
           repository: 'konveyor/move2kube'
           ref: ${{ github.event.inputs.tag }}
+      - id: get-commit-hash
+        run: echo "::set-output name=commit::$(git rev-parse HEAD)"
       - id: info
         uses: konveyor/get-env-info@v1
       - uses: actions/setup-go@v2
@@ -48,6 +50,6 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_ICON: https://github.com/actions.png?size=48
-          SLACK_MESSAGE: "move2kube-tests: results of transforming and deploying language-platforms in a cluster\n${{ steps.get-curl-output.outputs.result }}"
+          SLACK_MESSAGE: "move2kube-tests: results of transforming using commit ${{ steps.get-commit-hash.outputs.commit }} and deploying language-platforms in a cluster\n${{ steps.get-curl-output.outputs.result }}"
           SLACK_TITLE: Success
           SLACK_USERNAME: GitHubActions

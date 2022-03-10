@@ -1,4 +1,4 @@
-name: end-to-end-test
+name: e2etest-1-language-platforms
 
 on:
   workflow_dispatch:
@@ -38,7 +38,7 @@ jobs:
           kubectl_version: v1.23.3
           log_level: debug # https://github.com/kubernetes-sigs/kind/blob/80a6a355a2065823bbdae5048abf76a4f2a3ec9d/pkg/cmd/kind/root.go#L99
       - name: deploy to the cluster and test
-        run: bash -x move2kube.sh
+        run: bash -x e2etest-1-language-platforms.sh
       - id: get-curl-output
         uses: actions/github-script@v5
         with:

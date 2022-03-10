@@ -1,0 +1,95 @@
+move2kube:
+  containerruntime: docker
+  minreplicas: "2"
+  services:
+    config-utils:
+      enable: false
+    customers:
+      "8080":
+        servicetype: ClusterIP
+      activemavenprofiles:
+        - prod-externaldb
+      activespringbootprofiles:
+        - prod-externaldb
+      enable: true
+      wartransformer: Tomcat
+    frontend:
+      "8080":
+        servicetype: Ingress
+        urlpath: /
+      enable: true
+      port: "8080"
+    gateway:
+      "8080":
+        servicetype: ClusterIP
+      activemavenprofiles:
+        - prod
+      activespringbootprofiles:
+        - prod
+      enable: true
+      port: "8080"
+    inventory:
+      "8080":
+        servicetype: ClusterIP
+      activemavenprofiles:
+        - prod-externaldb
+      activespringbootprofiles:
+        - prod-externaldb
+      enable: true
+      port: "8080"
+    orders:
+      "8080":
+        servicetype: ClusterIP
+      activemavenprofiles:
+        - prod-externaldb
+      activespringbootprofiles:
+        - prod-externaldb
+      enable: true
+      port: "8080"
+  target:
+    clustertype: Kubernetes
+    imageregistry:
+      logintype: No authentication
+      namespace: move2kube
+      url: localhost:5001
+    ingress:
+      host: localhost
+      tls: ""
+  transformers:
+    types:
+      - Buildconfig
+      - CloudFoundry
+      - ClusterSelector
+      - ComposeAnalyser
+      - ComposeGenerator
+      - ContainerImagesPushScriptGenerator
+      - DockerfileDetector
+      - DockerfileImageBuildScript
+      - DockerfileParser
+      - DotNetCore-Dockerfile
+      - EarAnalyser
+      - EarRouter
+      - Golang-Dockerfile
+      - Gradle
+      - Jar
+      - Jboss
+      - Knative
+      - Kubernetes
+      - KubernetesVersionChanger
+      - Liberty
+      - Maven
+      - Nodejs-Dockerfile
+      - PHP-Dockerfile
+      - Parameterizer
+      - Python-Dockerfile
+      - ReadMeGenerator
+      - Ruby-Dockerfile
+      - Rust-Dockerfile
+      - Tekton
+      - Tomcat
+      - WarAnalyser
+      - WarRouter
+      - WinConsoleApp-Dockerfile
+      - WinSLWebApp-Dockerfile
+      - WinWebApp-Dockerfile
+      - ZuulAnalyser

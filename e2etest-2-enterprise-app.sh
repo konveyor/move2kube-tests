@@ -43,12 +43,14 @@ echo 'after ingress controller comes online'
 kubectl get pods
 kubectl get pods --namespace ingress-nginx
 echo 'before transforming using move2kube'
-mkdir temp
+rm -rf temp && mkdir temp
 cd temp || exit
-curl https://move2kube.konveyor.io/scripts/download.sh | bash -s -- -d samples/language-platforms -r move2kube-demos
+curl https://move2kube.konveyor.io/scripts/download.sh | bash -s -- -r move2kube-demos -d samples/enterprise-app/src
+curl https://move2kube.konveyor.io/scripts/download.sh | bash -s -- -r move2kube-demos -d samples/enterprise-app/database
+kubectl apply -f database
 ls
-move2kube plan -s language-platforms || exit
-move2kube transform --config ../m2kconfig.yaml --qa-skip || exit
+move2kube plan -s src || exit
+move2kube transform --config ../e2etest-2-enterprise-app-m2kconfig.yaml --qa-skip || exit
 ls
 ls myproject
 cd myproject/scripts || exit
@@ -62,27 +64,30 @@ kubectl apply -f deploy/yamls
 sleep 2
 kubectl get all
 echo 'wait for pods to start'
-kubectl wait --for=condition=ready pod --selector=move2kube.konveyor.io/service=golang --timeout=90s
+kubectl wait --for=condition=ready pod --timeout=90s --selector=move2kube.konveyor.io/service=database || exit
 kubectl get pods
-echo 'after golang pods comes online'
-kubectl wait --for=condition=ready pod --selector=move2kube.konveyor.io/service=nodejs --timeout=90s
+echo 'after database pods come online'
+kubectl wait --for=condition=ready pod --timeout=90s --selector=move2kube.konveyor.io/service=frontend || exit
 kubectl get pods
-echo 'after nodejs pods comes online'
-kubectl wait --for=condition=ready pod --selector=move2kube.konveyor.io/service=ruby --timeout=90s
+echo 'after frontend pods come online'
+kubectl wait --for=condition=ready pod --timeout=90s --selector=move2kube.konveyor.io/service=gateway || exit
 kubectl get pods
-echo 'after ruby pods comes online'
-kubectl wait --for=condition=ready pod --selector=move2kube.konveyor.io/service=rust --timeout=90s
+echo 'after gateway pods come online'
+kubectl wait --for=condition=ready pod --timeout=90s --selector=move2kube.konveyor.io/service=inventory || exit
 kubectl get pods
-echo 'after rust pods comes online'
-kubectl wait --for=condition=ready pod --selector=move2kube.konveyor.io/service=test-github-actions-3-python --timeout=90s
+echo 'after inventory pods come online'
+kubectl wait --for=condition=ready pod --timeout=90s --selector=move2kube.konveyor.io/service=orders || exit
 kubectl get pods
-echo 'after python pods comes online'
+echo 'after orders pods come online'
+kubectl wait --for=condition=ready pod --timeout=90s --selector=move2kube.konveyor.io/service=customers || exit
+kubectl get pods
+echo 'after customers pods come online'
 echo 'before ingress gets assigned an address'
 sleep 2
 until kubectl wait ingress/myproject --for=jsonpath='status.loadBalancer.ingress[0].hostname'=localhost; do sleep 1; done
 kubectl get ingress
 echo 'after ingress gets assigned an address'
-echo 'before testing language platforms deployment'
+echo 'before deploying to the kind cluster'
 
 function check_url() {
     local status_code
@@ -98,11 +103,7 @@ function check_url() {
 function all_tests() {
     echo 'Running End-to-End tests:'
     local passed=0
-    check_url localhost/nodejs || passed=1
-    check_url localhost/golang || passed=1
-    check_url localhost/rust   || passed=1
-    check_url localhost/ruby   || passed=1
-    check_url localhost/python || passed=1
+    check_url localhost/ || passed=1
     return "$passed"
 }
 

@@ -74,7 +74,7 @@ echo 'after ruby pods come online'
 kubectl wait --for=condition=ready pod --timeout=90s --selector=move2kube.konveyor.io/service=rust || exit
 kubectl get pods
 echo 'after rust pods come online'
-kubectl wait --for=condition=ready pod --timeout=90s --selector=move2kube.konveyor.io/service=test-github-actions-3-python || exit
+kubectl wait --for=condition=ready pod --timeout=90s --selector=move2kube.konveyor.io/service=move2kube-tests-python || exit
 kubectl get pods
 echo 'after python pods come online'
 echo 'before ingress gets assigned an address'

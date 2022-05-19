@@ -1,0 +1,2094 @@
+apiVersion: move2kube.konveyor.io/v1alpha1
+kind: Plan
+metadata:
+  name: myproject
+spec:
+  sourceDir: train-ticket
+  services:
+    jaeger:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: jaeger
+    redis:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: redis
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: redis
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: redis
+    train-ticket:
+      - transformerName: Python-Dockerfile
+        paths:
+          MainPythonFilesPathType: []
+          PythonFilesPathType:
+            - build_upload_image.py
+          ServiceDirectories:
+            - .
+        configs:
+          PythonConfig:
+            IsDjango: false
+    ts-avatar-service:
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-avatar-service/Dockerfile
+          ServiceDirectories:
+            - ts-avatar-service
+    ts-account-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-account-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-account-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-account-mongo
+    ts-admin-basic-info-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-basic-info-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-basic-info-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-admin-basic-info-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-basic-info-service
+        configs:
+          ComposeService:
+            serviceName: ts-admin-basic-info-service
+    ts-admin-order-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-order-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-order-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-admin-order-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-order-service
+        configs:
+          ComposeService:
+            serviceName: ts-admin-order-service
+    ts-admin-route-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-route-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-route-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-admin-route-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-route-service
+        configs:
+          ComposeService:
+            serviceName: ts-admin-route-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-admin-route-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-route-service
+    ts-admin-travel-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-travel-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-travel-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-admin-travel-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-travel-service
+        configs:
+          ComposeService:
+            serviceName: ts-admin-travel-service
+    ts-admin-user-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-user-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-admin-user-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-admin-user-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-user-service
+        configs:
+          ComposeService:
+            serviceName: ts-admin-user-service
+    ts-assurance-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-assurance-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-assurance-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-assurance-mongo
+    ts-assurance-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-assurance-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-assurance-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-assurance-service/Dockerfile
+          ServiceDirectories:
+            - ts-assurance-service
+        configs:
+          ComposeService:
+            serviceName: ts-assurance-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-assurance-service/Dockerfile
+          ServiceDirectories:
+            - ts-assurance-service
+    ts-auth-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-auth-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-auth-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-auth-mongo
+    ts-auth-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-auth-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-auth-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-auth-service/Dockerfile
+          ServiceDirectories:
+            - ts-auth-service
+        configs:
+          ComposeService:
+            serviceName: ts-auth-service
+    ts-basic-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-basic-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-basic-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-basic-service/Dockerfile
+          ServiceDirectories:
+            - ts-basic-service
+        configs:
+          ComposeService:
+            serviceName: ts-basic-service
+    ts-cancel-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-cancel-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-cancel-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-cancel-service/Dockerfile
+          ServiceDirectories:
+            - ts-cancel-service
+        configs:
+          ComposeService:
+            serviceName: ts-cancel-service
+    ts-config-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-config-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-config-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-config-mongo
+    ts-config-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-config-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-config-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-config-service/Dockerfile
+          ServiceDirectories:
+            - ts-config-service
+        configs:
+          ComposeService:
+            serviceName: ts-config-service
+    ts-consign-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-mongo
+    ts-consign-price-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-price-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-price-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-price-mongo
+    ts-consign-price-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-price-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-price-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-consign-price-service/Dockerfile
+          ServiceDirectories:
+            - ts-consign-price-service
+        configs:
+          ComposeService:
+            serviceName: ts-consign-price-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-consign-price-service/Dockerfile
+          ServiceDirectories:
+            - ts-consign-price-service
+    ts-consign-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-consign-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-consign-service/Dockerfile
+          ServiceDirectories:
+            - ts-consign-service
+        configs:
+          ComposeService:
+            serviceName: ts-consign-service
+    ts-contacts-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-contacts-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-contacts-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-contacts-mongo
+    ts-contacts-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-contacts-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-contacts-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-contacts-service/Dockerfile
+          ServiceDirectories:
+            - ts-contacts-service
+        configs:
+          ComposeService:
+            serviceName: ts-contacts-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-contacts-service/Dockerfile
+          ServiceDirectories:
+            - ts-contacts-service
+    ts-execute-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-execute-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-execute-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-execute-service/Dockerfile
+          ServiceDirectories:
+            - ts-execute-service
+        configs:
+          ComposeService:
+            serviceName: ts-execute-service
+    ts-food-map-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-map-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-map-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-map-mongo
+    ts-food-map-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-map-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-map-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-food-map-service/Dockerfile
+          ServiceDirectories:
+            - ts-food-map-service
+        configs:
+          ComposeService:
+            serviceName: ts-food-map-service
+    ts-food-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-mongo
+    ts-food-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-food-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-food-service/Dockerfile
+          ServiceDirectories:
+            - ts-food-service
+        configs:
+          ComposeService:
+            serviceName: ts-food-service
+    ts-inside-payment-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-inside-payment-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-inside-payment-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-inside-payment-mongo
+    ts-inside-payment-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-inside-payment-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-inside-payment-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-inside-payment-service/Dockerfile
+          ServiceDirectories:
+            - ts-inside-payment-service
+        configs:
+          ComposeService:
+            serviceName: ts-inside-payment-service
+    ts-news-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-news-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-news-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-news-mongo
+    ts-news-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-news-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-news-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-news-service/Dockerfile
+          ServiceDirectories:
+            - ts-news-service
+        configs:
+          ComposeService:
+            serviceName: ts-news-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-news-service/Dockerfile
+          ServiceDirectories:
+            - ts-news-service
+    ts-notification-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-notification-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-notification-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-notification-service/Dockerfile
+          ServiceDirectories:
+            - ts-notification-service
+        configs:
+          ComposeService:
+            serviceName: ts-notification-service
+    ts-order-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-mongo
+    ts-order-other-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-other-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-other-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-other-mongo
+    ts-order-other-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-other-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-other-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-order-other-service/Dockerfile
+          ServiceDirectories:
+            - ts-order-other-service
+        configs:
+          ComposeService:
+            serviceName: ts-order-other-service
+    ts-order-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-order-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-order-service/Dockerfile
+          ServiceDirectories:
+            - ts-order-service
+        configs:
+          ComposeService:
+            serviceName: ts-order-service
+    ts-payment-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-payment-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-payment-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-payment-mongo
+    ts-payment-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-payment-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-payment-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-payment-service/Dockerfile
+          ServiceDirectories:
+            - ts-payment-service
+        configs:
+          ComposeService:
+            serviceName: ts-payment-service
+    ts-preserve-other-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-preserve-other-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-preserve-other-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-preserve-other-service/Dockerfile
+          ServiceDirectories:
+            - ts-preserve-other-service
+        configs:
+          ComposeService:
+            serviceName: ts-preserve-other-service
+    ts-preserve-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-preserve-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-preserve-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-preserve-service/Dockerfile
+          ServiceDirectories:
+            - ts-preserve-service
+        configs:
+          ComposeService:
+            serviceName: ts-preserve-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-preserve-service/Dockerfile
+          ServiceDirectories:
+            - ts-preserve-service
+    ts-price-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-price-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-price-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-price-mongo
+    ts-price-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-price-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-price-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-price-service/Dockerfile
+          ServiceDirectories:
+            - ts-price-service
+        configs:
+          ComposeService:
+            serviceName: ts-price-service
+    ts-rebook-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-rebook-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-rebook-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-rebook-mongo
+    ts-rebook-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-rebook-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-rebook-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-rebook-service/Dockerfile
+          ServiceDirectories:
+            - ts-rebook-service
+        configs:
+          ComposeService:
+            serviceName: ts-rebook-service
+    ts-route-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-route-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-route-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-route-mongo
+    ts-route-plan-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-route-plan-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-route-plan-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-route-plan-service/Dockerfile
+          ServiceDirectories:
+            - ts-route-plan-service
+        configs:
+          ComposeService:
+            serviceName: ts-route-plan-service
+    ts-route-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-route-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-route-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-route-service/Dockerfile
+          ServiceDirectories:
+            - ts-route-service
+        configs:
+          ComposeService:
+            serviceName: ts-route-service
+    ts-seat-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-seat-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-seat-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-seat-service/Dockerfile
+          ServiceDirectories:
+            - ts-seat-service
+        configs:
+          ComposeService:
+            serviceName: ts-seat-service
+    ts-security-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-security-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-security-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-security-mongo
+    ts-security-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-security-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-security-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-security-service/Dockerfile
+          ServiceDirectories:
+            - ts-security-service
+        configs:
+          ComposeService:
+            serviceName: ts-security-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-security-service/Dockerfile
+          ServiceDirectories:
+            - ts-security-service
+    ts-service:
+      - transformerName: Maven
+        name: ts-service
+        type: Service
+        paths:
+          ServiceDirectories:
+            - ts-verification-code-service
+            - ts-contacts-service
+            - ts-order-service
+            - ts-order-other-service
+            - ts-config-service
+            - ts-station-service
+            - ts-train-service
+            - ts-travel-service
+            - ts-travel2-service
+            - ts-preserve-service
+            - ts-preserve-other-service
+            - ts-basic-service
+            - ts-ticketinfo-service
+            - ts-price-service
+            - ts-notification-service
+            - ts-security-service
+            - ts-inside-payment-service
+            - ts-execute-service
+            - ts-payment-service
+            - ts-rebook-service
+            - ts-cancel-service
+            - ts-route-service
+            - ts-assurance-service
+            - ts-seat-service
+            - ts-travel-plan-service
+            - ts-route-plan-service
+            - ts-food-map-service
+            - ts-food-service
+            - ts-consign-price-service
+            - ts-consign-service
+            - ts-admin-order-service
+            - ts-admin-basic-info-service
+            - ts-admin-route-service
+            - ts-admin-travel-service
+            - ts-admin-user-service
+            - ts-common
+            - ts-auth-service
+            - ts-user-service
+            - ts-delivery-service
+          ServiceRootDirectory:
+            - .
+          pomFiles:
+            - pom.xml
+        configs:
+          Maven:
+            mavenAppName: ts-service
+            packagingType: pom
+            isMvnwPresent: false
+            childModules:
+              - name: ts-verification-code-service
+                pomPath: ts-verification-code-service/pom.xml
+              - name: ts-contacts-service
+                pomPath: ts-contacts-service/pom.xml
+              - name: ts-order-service
+                pomPath: ts-order-service/pom.xml
+              - name: ts-order-other-service
+                pomPath: ts-order-other-service/pom.xml
+              - name: ts-config-service
+                pomPath: ts-config-service/pom.xml
+              - name: ts-station-service
+                pomPath: ts-station-service/pom.xml
+              - name: ts-train-service
+                pomPath: ts-train-service/pom.xml
+              - name: ts-travel-service
+                pomPath: ts-travel-service/pom.xml
+              - name: ts-travel2-service
+                pomPath: ts-travel2-service/pom.xml
+              - name: ts-preserve-service
+                pomPath: ts-preserve-service/pom.xml
+              - name: ts-preserve-other-service
+                pomPath: ts-preserve-other-service/pom.xml
+              - name: ts-basic-service
+                pomPath: ts-basic-service/pom.xml
+              - name: ts-ticketinfo-service
+                pomPath: ts-ticketinfo-service/pom.xml
+              - name: ts-price-service
+                pomPath: ts-price-service/pom.xml
+              - name: ts-notification-service
+                pomPath: ts-notification-service/pom.xml
+              - name: ts-security-service
+                pomPath: ts-security-service/pom.xml
+              - name: ts-inside-payment-service
+                pomPath: ts-inside-payment-service/pom.xml
+              - name: ts-execute-service
+                pomPath: ts-execute-service/pom.xml
+              - name: ts-payment-service
+                pomPath: ts-payment-service/pom.xml
+              - name: ts-rebook-service
+                pomPath: ts-rebook-service/pom.xml
+              - name: ts-cancel-service
+                pomPath: ts-cancel-service/pom.xml
+              - name: ts-route-service
+                pomPath: ts-route-service/pom.xml
+              - name: ts-assurance-service
+                pomPath: ts-assurance-service/pom.xml
+              - name: ts-seat-service
+                pomPath: ts-seat-service/pom.xml
+              - name: ts-travel-plan-service
+                pomPath: ts-travel-plan-service/pom.xml
+              - name: ts-route-plan-service
+                pomPath: ts-route-plan-service/pom.xml
+              - name: ts-food-map-service
+                pomPath: ts-food-map-service/pom.xml
+              - name: ts-food-service
+                pomPath: ts-food-service/pom.xml
+              - name: ts-consign-price-service
+                pomPath: ts-consign-price-service/pom.xml
+              - name: ts-consign-service
+                pomPath: ts-consign-service/pom.xml
+              - name: ts-admin-order-service
+                pomPath: ts-admin-order-service/pom.xml
+              - name: ts-admin-basic-info-service
+                pomPath: ts-admin-basic-info-service/pom.xml
+              - name: ts-admin-route-service
+                pomPath: ts-admin-route-service/pom.xml
+              - name: ts-admin-travel-service
+                pomPath: ts-admin-travel-service/pom.xml
+              - name: ts-admin-user-service
+                pomPath: ts-admin-user-service/pom.xml
+              - name: ts-common
+                pomPath: ts-common/pom.xml
+              - name: ts-auth-service
+                pomPath: ts-auth-service/pom.xml
+              - name: ts-user-service
+                pomPath: ts-user-service/pom.xml
+              - name: ts-delivery-service
+                pomPath: ts-delivery-service/pom.xml
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-admin-basic-info-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-basic-info-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-admin-order-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-order-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-admin-travel-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-travel-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-admin-user-service/Dockerfile
+          ServiceDirectories:
+            - ts-admin-user-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-auth-service/Dockerfile
+          ServiceDirectories:
+            - ts-auth-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-basic-service/Dockerfile
+          ServiceDirectories:
+            - ts-basic-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-cancel-service/Dockerfile
+          ServiceDirectories:
+            - ts-cancel-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-config-service/Dockerfile
+          ServiceDirectories:
+            - ts-config-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-consign-service/Dockerfile
+          ServiceDirectories:
+            - ts-consign-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-delivery-service/Dockerfile
+          ServiceDirectories:
+            - ts-delivery-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-execute-service/Dockerfile
+          ServiceDirectories:
+            - ts-execute-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-food-map-service/Dockerfile
+          ServiceDirectories:
+            - ts-food-map-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-food-service/Dockerfile
+          ServiceDirectories:
+            - ts-food-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-inside-payment-service/Dockerfile
+          ServiceDirectories:
+            - ts-inside-payment-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-notification-service/Dockerfile
+          ServiceDirectories:
+            - ts-notification-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-order-other-service/Dockerfile
+          ServiceDirectories:
+            - ts-order-other-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-order-service/Dockerfile
+          ServiceDirectories:
+            - ts-order-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-payment-service/Dockerfile
+          ServiceDirectories:
+            - ts-payment-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-preserve-other-service/Dockerfile
+          ServiceDirectories:
+            - ts-preserve-other-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-price-service/Dockerfile
+          ServiceDirectories:
+            - ts-price-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-rebook-service/Dockerfile
+          ServiceDirectories:
+            - ts-rebook-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-route-plan-service/Dockerfile
+          ServiceDirectories:
+            - ts-route-plan-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-route-service/Dockerfile
+          ServiceDirectories:
+            - ts-route-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-seat-service/Dockerfile
+          ServiceDirectories:
+            - ts-seat-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-station-service/Dockerfile
+          ServiceDirectories:
+            - ts-station-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-ticketinfo-service/Dockerfile
+          ServiceDirectories:
+            - ts-ticketinfo-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-train-service/Dockerfile
+          ServiceDirectories:
+            - ts-train-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-travel2-service/Dockerfile
+          ServiceDirectories:
+            - ts-travel2-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-user-service/Dockerfile
+          ServiceDirectories:
+            - ts-user-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-verification-code-service/Dockerfile
+          ServiceDirectories:
+            - ts-verification-code-service
+    ts-station-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-station-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-station-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-station-mongo
+    ts-station-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-station-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-station-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-station-service/Dockerfile
+          ServiceDirectories:
+            - ts-station-service
+        configs:
+          ComposeService:
+            serviceName: ts-station-service
+    ts-ticket-office-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-ticket-office-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-ticket-office-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-ticket-office-mongo
+    ts-ticket-office-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-ticket-office-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-ticket-office-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-ticket-office-service/Dockerfile
+          ServiceDirectories:
+            - ts-ticket-office-service
+        configs:
+          ComposeService:
+            serviceName: ts-ticket-office-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-ticket-office-service/Dockerfile
+          ServiceDirectories:
+            - ts-ticket-office-service
+    ts-ticketinfo-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-ticketinfo-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-ticketinfo-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-ticketinfo-service/Dockerfile
+          ServiceDirectories:
+            - ts-ticketinfo-service
+        configs:
+          ComposeService:
+            serviceName: ts-ticketinfo-service
+    ts-train-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-train-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-train-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-train-mongo
+    ts-train-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-train-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-train-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-train-service/Dockerfile
+          ServiceDirectories:
+            - ts-train-service
+        configs:
+          ComposeService:
+            serviceName: ts-train-service
+    ts-travel-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel-mongo
+    ts-travel-plan-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel-plan-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel-plan-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-travel-plan-service/Dockerfile
+          ServiceDirectories:
+            - ts-travel-plan-service
+        configs:
+          ComposeService:
+            serviceName: ts-travel-plan-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-travel-plan-service/Dockerfile
+          ServiceDirectories:
+            - ts-travel-plan-service
+    ts-travel-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-travel-service/Dockerfile
+          ServiceDirectories:
+            - ts-travel-service
+        configs:
+          ComposeService:
+            serviceName: ts-travel-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-travel-service/Dockerfile
+          ServiceDirectories:
+            - ts-travel-service
+    ts-travel2-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel2-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel2-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel2-mongo
+    ts-travel2-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel2-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-travel2-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-travel2-service/Dockerfile
+          ServiceDirectories:
+            - ts-travel2-service
+        configs:
+          ComposeService:
+            serviceName: ts-travel2-service
+    ts-ui-dashboard:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-ui-dashboard
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-ui-dashboard
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-ui-dashboard/Dockerfile
+          ServiceDirectories:
+            - ts-ui-dashboard
+        configs:
+          ComposeService:
+            serviceName: ts-ui-dashboard
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-ui-dashboard/Dockerfile
+          ServiceDirectories:
+            - ts-ui-dashboard
+    ts-user-mongo:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-user-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-user-mongo
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-user-mongo
+    ts-user-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-user-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-user-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-user-service/Dockerfile
+          ServiceDirectories:
+            - ts-user-service
+        configs:
+          ComposeService:
+            serviceName: ts-user-service
+    ts-verification-code-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-verification-code-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-verification-code-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-verification-code-service/Dockerfile
+          ServiceDirectories:
+            - ts-verification-code-service
+        configs:
+          ComposeService:
+            serviceName: ts-verification-code-service
+    ts-voucher-mysql:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-voucher-mysql
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-voucher-mysql
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-voucher-mysql
+    ts-voucher-service:
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/docker-compose-with-jaeger.yml
+        configs:
+          ComposeService:
+            serviceName: ts-voucher-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - deployment/docker-compose-manifests/quickstart-docker-compose.yml
+        configs:
+          ComposeService:
+            serviceName: ts-voucher-service
+      - transformerName: ComposeAnalyser
+        paths:
+          DockerCompose:
+            - docker-compose.yml
+          Dockerfile:
+            - ts-voucher-service/Dockerfile
+          ServiceDirectories:
+            - ts-voucher-service
+        configs:
+          ComposeService:
+            serviceName: ts-voucher-service
+      - transformerName: DockerfileDetector
+        paths:
+          Dockerfile:
+            - ts-voucher-service/Dockerfile
+          ServiceDirectories:
+            - ts-voucher-service
+  transformers:
+    ArgoCD: m2kassets/built-in/transformers/kubernetes/argocd/transformer.yaml
+    Buildconfig: m2kassets/built-in/transformers/kubernetes/buildconfig/transformer.yaml
+    CloudFoundry: m2kassets/built-in/transformers/cloudfoundry/transformer.yaml
+    ClusterSelector: m2kassets/built-in/transformers/kubernetes/clusterselector/transformer.yaml
+    ComposeAnalyser: m2kassets/built-in/transformers/compose/composeanalyser/transformer.yaml
+    ComposeGenerator: m2kassets/built-in/transformers/compose/composegenerator/transformer.yaml
+    ContainerImagesPushScriptGenerator: m2kassets/built-in/transformers/containerimagespushscript/transformer.yaml
+    DockerfileDetector: m2kassets/built-in/transformers/dockerfile/dockerfiledetector/transformer.yaml
+    DockerfileImageBuildScript: m2kassets/built-in/transformers/dockerfile/dockerimagebuildscript/transformer.yaml
+    DockerfileParser: m2kassets/built-in/transformers/dockerfile/dockerfileparser/transformer.yaml
+    DotNetCore-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/dotnetcore/transformer.yaml
+    EarAnalyser: m2kassets/built-in/transformers/dockerfilegenerator/java/earanalyser/transformer.yaml
+    EarRouter: m2kassets/built-in/transformers/dockerfilegenerator/java/earrouter/transformer.yaml
+    Golang-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/golang/transformer.yaml
+    Gradle: m2kassets/built-in/transformers/dockerfilegenerator/java/gradle/transformer.yaml
+    Jar: m2kassets/built-in/transformers/dockerfilegenerator/java/jar/transformer.yaml
+    Jboss: m2kassets/built-in/transformers/dockerfilegenerator/java/jboss/transformer.yaml
+    Knative: m2kassets/built-in/transformers/kubernetes/knative/transformer.yaml
+    Kubernetes: m2kassets/built-in/transformers/kubernetes/kubernetes/transformer.yaml
+    KubernetesVersionChanger: m2kassets/built-in/transformers/kubernetes/kubernetesversionchanger/transformer.yaml
+    Liberty: m2kassets/built-in/transformers/dockerfilegenerator/java/liberty/transformer.yaml
+    Maven: m2kassets/built-in/transformers/dockerfilegenerator/java/maven/transformer.yaml
+    Nodejs-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/nodejs/transformer.yaml
+    PHP-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/php/transformer.yaml
+    Parameterizer: m2kassets/built-in/transformers/kubernetes/parameterizer/transformer.yaml
+    Python-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/python/transformer.yaml
+    ReadMeGenerator: m2kassets/built-in/transformers/readmegenerator/transformer.yaml
+    Ruby-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/ruby/transformer.yaml
+    Rust-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/rust/transformer.yaml
+    Tekton: m2kassets/built-in/transformers/kubernetes/tekton/transformer.yaml
+    Tomcat: m2kassets/built-in/transformers/dockerfilegenerator/java/tomcat/transformer.yaml
+    WarAnalyser: m2kassets/built-in/transformers/dockerfilegenerator/java/waranalyser/transformer.yaml
+    WarRouter: m2kassets/built-in/transformers/dockerfilegenerator/java/warrouter/transformer.yaml
+    WinConsoleApp-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/windows/winconsole/transformer.yaml
+    WinSLWebApp-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/windows/winsilverlightweb/transformer.yaml
+    WinWebApp-Dockerfile: m2kassets/built-in/transformers/dockerfilegenerator/windows/winweb/transformer.yaml
+    ZuulAnalyser: m2kassets/built-in/transformers/dockerfilegenerator/java/zuul/transformer.yaml

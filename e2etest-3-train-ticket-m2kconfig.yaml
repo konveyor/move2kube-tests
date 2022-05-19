@@ -1,0 +1,475 @@
+move2kube:
+  containerruntime: docker
+  minreplicas: "1"
+  services:
+    jaeger:
+      enable: false
+    redis:
+      enable: false
+    train-ticket:
+      enable: false
+    ts-account-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-admin-basic-info-service:
+      "18767":
+        servicetype: ClusterIP
+      enable: false
+    ts-admin-order-service:
+      "16112":
+        servicetype: ClusterIP
+      enable: false
+    ts-admin-route-service:
+      "16113":
+        servicetype: ClusterIP
+      enable: false
+    ts-admin-travel-service:
+      "16114":
+        servicetype: ClusterIP
+      enable: false
+    ts-admin-user-service:
+      "16115":
+        servicetype: ClusterIP
+      enable: false
+    ts-assurance-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-assurance-service:
+      "18888":
+        servicetype: ClusterIP
+      enable: false
+    ts-auth-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-auth-service:
+      "12340":
+        servicetype: ClusterIP
+      enable: false
+    ts-avatar-service:
+      "17001":
+        servicetype: ClusterIP
+      enable: true
+    ts-basic-service:
+      "15680":
+        servicetype: ClusterIP
+      enable: false
+    ts-cancel-service:
+      "18885":
+        servicetype: ClusterIP
+      enable: false
+    ts-config-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-config-service:
+      "15679":
+        servicetype: ClusterIP
+      enable: false
+    ts-consign-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-consign-price-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-consign-price-service:
+      "16110":
+        servicetype: ClusterIP
+      enable: false
+    ts-consign-service:
+      "16111":
+        servicetype: ClusterIP
+      enable: false
+    ts-contacts-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-contacts-service:
+      "12347":
+        servicetype: ClusterIP
+      enable: false
+    ts-delivery-service:
+      "18808":
+        servicetype: ClusterIP
+    ts-execute-service:
+      "12386":
+        servicetype: ClusterIP
+      enable: false
+    ts-food-map-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-food-map-service:
+      "18855":
+        servicetype: ClusterIP
+      enable: false
+    ts-food-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-food-service:
+      "18856":
+        servicetype: ClusterIP
+      enable: false
+    ts-inside-payment-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-inside-payment-service:
+      "18673":
+        servicetype: ClusterIP
+      enable: false
+    ts-news-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-news-service:
+      "12862":
+        servicetype: ClusterIP
+      enable: true
+    ts-notification-service:
+      "17853":
+        servicetype: ClusterIP
+      enable: false
+    ts-order-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-order-other-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-order-other-service:
+      "12032":
+        servicetype: ClusterIP
+      enable: false
+    ts-order-service:
+      "12031":
+        servicetype: ClusterIP
+      enable: false
+    ts-payment-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-payment-service:
+      "19001":
+        servicetype: ClusterIP
+      enable: false
+    ts-preserve-other-service:
+      "14569":
+        servicetype: ClusterIP
+      enable: false
+    ts-preserve-service:
+      "14568":
+        servicetype: ClusterIP
+      enable: false
+    ts-price-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-price-service:
+      "16579":
+        servicetype: ClusterIP
+      enable: false
+    ts-rebook-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-rebook-service:
+      "18886":
+        servicetype: ClusterIP
+      enable: false
+    ts-route-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-route-plan-service:
+      "14578":
+        servicetype: ClusterIP
+      enable: false
+    ts-route-service:
+      "11178":
+        servicetype: ClusterIP
+      enable: false
+    ts-seat-service:
+      "18898":
+        servicetype: ClusterIP
+      enable: false
+    ts-security-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-security-service:
+      "11188":
+        servicetype: ClusterIP
+      enable: false
+    ts-service:
+      childModules:
+        ts-admin-basic-info-service:
+          enable: true
+          port: "18767"
+        ts-admin-order-service:
+          enable: true
+          port: "16112"
+        ts-admin-route-service:
+          enable: true
+          port: "16113"
+        ts-admin-travel-service:
+          enable: true
+          port: "16114"
+        ts-admin-user-service:
+          enable: true
+          port: "16115"
+        ts-assurance-service:
+          enable: true
+          port: "18888"
+        ts-auth-service:
+          enable: true
+          port: "12340"
+        ts-basic-service:
+          enable: true
+          port: "15680"
+        ts-cancel-service:
+          enable: true
+          port: "18885"
+        ts-common:
+          enable: false
+        ts-config-service:
+          enable: true
+          port: "15679"
+        ts-consign-price-service:
+          enable: true
+          port: "16110"
+        ts-consign-service:
+          enable: true
+          port: "16111"
+        ts-contacts-service:
+          enable: true
+          port: "12347"
+        ts-delivery-service:
+          enable: true
+          port: "18808"
+        ts-execute-service:
+          enable: true
+          port: "12386"
+        ts-food-map-service:
+          enable: true
+          port: "18855"
+        ts-food-service:
+          enable: true
+          port: "18856"
+        ts-inside-payment-service:
+          enable: true
+          port: "18673"
+        ts-notification-service:
+          enable: true
+          port: "17853"
+        ts-order-other-service:
+          enable: true
+          port: "12032"
+        ts-order-service:
+          enable: true
+          port: "12031"
+        ts-payment-service:
+          enable: true
+          port: "19001"
+        ts-preserve-other-service:
+          enable: true
+          port: "14569"
+        ts-preserve-service:
+          enable: true
+          port: "14568"
+        ts-price-service:
+          enable: true
+          port: "16579"
+        ts-rebook-service:
+          enable: true
+          port: "18886"
+        ts-route-plan-service:
+          enable: true
+          port: "14578"
+        ts-route-service:
+          enable: true
+          port: "11178"
+        ts-seat-service:
+          enable: true
+          port: "18898"
+        ts-security-service:
+          enable: true
+          port: "11188"
+        ts-station-service:
+          enable: true
+          port: "12345"
+        ts-ticketinfo-service:
+          enable: true
+          port: "15681"
+        ts-train-service:
+          enable: true
+          port: "14567"
+        ts-travel-plan-service:
+          enable: true
+          port: "14322"
+        ts-travel-service:
+          enable: true
+          port: "12346"
+        ts-travel2-service:
+          enable: true
+          port: "16346"
+        ts-user-service:
+          enable: true
+          port: "12342"
+        ts-verification-code-service:
+          enable: true
+          port: "15678"
+      dockerfileType: build-stage-in-base-image
+      enable: true
+    ts-station-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-station-service:
+      "12345":
+        servicetype: ClusterIP
+      enable: false
+    ts-ticket-office-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-ticket-office-service:
+      "16108":
+        servicetype: ClusterIP
+      enable: true
+    ts-ticketinfo-service:
+      "15681":
+        servicetype: ClusterIP
+      enable: false
+    ts-train-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-train-service:
+      "14567":
+        servicetype: ClusterIP
+      enable: false
+    ts-travel-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-travel-plan-service:
+      "14322":
+        servicetype: ClusterIP
+      enable: false
+    ts-travel-service:
+      "12346":
+        servicetype: ClusterIP
+      enable: false
+    ts-travel2-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-travel2-service:
+      "16346":
+        servicetype: ClusterIP
+      enable: false
+    ts-ui-dashboard:
+      "8080":
+        servicetype: Ingress
+        urlpath: /
+      enable: true
+    ts-user-mongo:
+      "27017":
+        servicetype: ClusterIP
+      enable: true
+      port: "27017"
+    ts-user-service:
+      "12342":
+        servicetype: ClusterIP
+      enable: false
+    ts-verification-code-service:
+      "15678":
+        servicetype: ClusterIP
+      enable: false
+    ts-voucher-mysql:
+      "3306":
+        servicetype: ClusterIP
+      enable: true
+      port: "3306"
+    ts-voucher-service:
+      "16101":
+        servicetype: ClusterIP
+      enable: true
+  target:
+    clustertype: Kubernetes
+    imageregistry:
+      logintype: No authentication
+      namespace: move2kube
+      url: localhost:5001
+    ingress:
+      host: localhost
+      tls: ""
+  transformers:
+    types:
+      - ArgoCD
+      - Buildconfig
+      - CloudFoundry
+      - ClusterSelector
+      - ComposeAnalyser
+      - ComposeGenerator
+      - ContainerImagesPushScriptGenerator
+      - DockerfileDetector
+      - DockerfileImageBuildScript
+      - DockerfileParser
+      - DotNetCore-Dockerfile
+      - EarAnalyser
+      - EarRouter
+      - Golang-Dockerfile
+      - Gradle
+      - Jar
+      - Jboss
+      - Knative
+      - Kubernetes
+      - KubernetesVersionChanger
+      - Liberty
+      - Maven
+      - Nodejs-Dockerfile
+      - PHP-Dockerfile
+      - Parameterizer
+      - Python-Dockerfile
+      - ReadMeGenerator
+      - Ruby-Dockerfile
+      - Rust-Dockerfile
+      - Tekton
+      - Tomcat
+      - WarAnalyser
+      - WarRouter
+      - WinConsoleApp-Dockerfile
+      - WinSLWebApp-Dockerfile
+      - WinWebApp-Dockerfile
+      - ZuulAnalyser

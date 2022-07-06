@@ -47,7 +47,8 @@ move2kube:
       enable: true
       port: "8080"
   target:
-    clustertype: Kubernetes
+    default:
+      clustertype: Kubernetes
     imageregistry:
       logintype: No authentication
       namespace: move2kube

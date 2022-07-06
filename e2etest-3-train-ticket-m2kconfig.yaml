@@ -426,7 +426,8 @@ move2kube:
         servicetype: ClusterIP
       enable: true
   target:
-    clustertype: Kubernetes
+    default:
+      clustertype: Kubernetes
     imageregistry:
       logintype: No authentication
       namespace: move2kube

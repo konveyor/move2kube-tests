@@ -428,13 +428,13 @@ move2kube:
   target:
     default:
       clustertype: Kubernetes
+      ingress:
+        host: localhost
+        tls: ""
     imageregistry:
       logintype: No authentication
       namespace: move2kube
       url: localhost:5001
-    ingress:
-      host: localhost
-      tls: ""
   transformers:
     types:
       - ArgoCD

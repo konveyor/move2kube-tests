@@ -2,6 +2,12 @@ move2kube:
   containerruntime: docker
   minreplicas: "2"
   services:
+    django:
+      "8080":
+        servicetype: Ingress
+        urlpath: /django
+      enable: true
+      port: "8080"
     golang:
       "8080":
         servicetype: Ingress
@@ -13,10 +19,27 @@ move2kube:
       enable: false
     java-maven:
       enable: false
+    java-war:
+      "8080":
+        servicetype: Ingress
+        urlpath: /java-war
+      enable: true
+      wartransformer: Jboss
     nodejs:
       "8080":
         servicetype: Ingress
         urlpath: /nodejs
+      enable: true
+      port: "8080"
+    php:
+      "8082":
+        servicetype: Ingress
+        urlpath: /php
+      enable: true
+    python:
+      "8080":
+        servicetype: Ingress
+        urlpath: /python
       enable: true
       port: "8080"
     ruby:
@@ -31,30 +54,21 @@ move2kube:
         urlpath: /rust
       enable: true
       port: "8085"
-    move2kube-tests-django:
-      enable: false
-    move2kube-tests-java-war:
-      enable: false
-    move2kube-tests-php:
-      enable: false
-    move2kube-tests-python:
-      "8080":
-        servicetype: Ingress
-        urlpath: /python
-      enable: true
-      port: "8080"
   target:
     default:
       clustertype: Kubernetes
       ingress:
         host: localhost
+        ingressclassname: ""
         tls: ""
     imageregistry:
-      logintype: No authentication
+      localhost:5001:
+        logintype: no authentication
       namespace: move2kube
       url: localhost:5001
   transformers:
     types:
+      - ArgoCD
       - Buildconfig
       - CloudFoundry
       - ClusterSelector
@@ -87,7 +101,6 @@ move2kube:
       - Tomcat
       - WarAnalyser
       - WarRouter
-      - WinConsoleApp-Dockerfile
-      - WinSLWebApp-Dockerfile
       - WinWebApp-Dockerfile
       - ZuulAnalyser
+  transformerselector: ""

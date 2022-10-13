@@ -2,62 +2,86 @@ move2kube:
   containerruntime: docker
   minreplicas: "2"
   services:
-    config-utils:
-      enable: false
     customers:
       "8080":
         servicetype: ClusterIP
-      activemavenprofiles:
-        - prod-externaldb
-      activespringbootprofiles:
-        - prod-externaldb
+      childModules:
+        customers:
+          port: "8080"
+          springBootProfiles:
+            - prod-externaldb
+      containerizationoption:
+        - Maven
+      dockerfileType: build stage in base image
       enable: true
+      mavenProfiles:
+        - prod-externaldb
       wartransformer: Tomcat
     frontend:
       "8080":
         servicetype: Ingress
         urlpath: /
+      containerizationoption:
+        - Nodejs-Dockerfile
       enable: true
       port: "8080"
     gateway:
       "8080":
         servicetype: ClusterIP
-      activemavenprofiles:
-        - prod
-      activespringbootprofiles:
-        - prod
+      childModules:
+        gateway:
+          port: "8080"
+          springBootProfiles:
+            - prod
+      containerizationoption:
+        - Maven
+      dockerfileType: build stage in base image
       enable: true
-      port: "8080"
+      mavenProfiles:
+        - prod
     inventory:
       "8080":
         servicetype: ClusterIP
-      activemavenprofiles:
-        - prod-externaldb
-      activespringbootprofiles:
-        - prod-externaldb
+      childModules:
+        inventory:
+          port: "8080"
+          springBootProfiles:
+            - prod-externaldb
+      containerizationoption:
+        - Maven
+      dockerfileType: build stage in base image
       enable: true
-      port: "8080"
+      mavenProfiles:
+        - prod-externaldb
     orders:
       "8080":
         servicetype: ClusterIP
-      activemavenprofiles:
-        - prod-externaldb
-      activespringbootprofiles:
-        - prod-externaldb
+      childModules:
+        orders:
+          port: "8080"
+          springBootProfiles:
+            - prod-externaldb
+      containerizationoption:
+        - Maven
+      dockerfileType: build stage in base image
       enable: true
-      port: "8080"
+      mavenProfiles:
+        - prod-externaldb
   target:
     default:
       clustertype: Kubernetes
       ingress:
         host: localhost
+        ingressclassname: ""
         tls: ""
     imageregistry:
-      logintype: No authentication
+      localhost:5001:
+        logintype: no authentication
       namespace: move2kube
       url: localhost:5001
   transformers:
     types:
+      - ArgoCD
       - Buildconfig
       - CloudFoundry
       - ClusterSelector
@@ -90,7 +114,6 @@ move2kube:
       - Tomcat
       - WarAnalyser
       - WarRouter
-      - WinConsoleApp-Dockerfile
-      - WinSLWebApp-Dockerfile
       - WinWebApp-Dockerfile
       - ZuulAnalyser
+  transformerselector: ""

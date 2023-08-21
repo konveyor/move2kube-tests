@@ -17,7 +17,7 @@ jobs:
           repository: 'konveyor/move2kube'
           ref: ${{ github.event.inputs.tag }}
       - id: get-commit-hash
-        run: echo "::set-output name=commit::$(git rev-parse HEAD)"
+        run: echo "commit=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
       - id: info
         uses: konveyor/get-env-info@v1
       - uses: actions/setup-go@v2

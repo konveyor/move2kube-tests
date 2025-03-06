@@ -16,7 +16,7 @@ ARG VERSION=latest
 FROM quay.io/konveyor/move2kube:${VERSION} as move2kube
 
 FROM registry.fedoraproject.org/fedora:latest
-RUN dnf group install "Development Tools" -y \
+RUN dnf group install development-tools -y \
     && dnf install -y npm make git expect findutils \
     && dnf clean all \
     && rm -rf /var/cache/yum
